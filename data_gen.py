@@ -11,11 +11,6 @@ import matplotlib.gridspec as gridspec
 import gen_pic
 import numpy as np
 
-# app=QApplication(sys.argv)
-# win=UI.Ui_MainWindow()
-# win.show()
-# sys.exit(app.exec())
-
 class AppWindow(QMainWindow):
     def __init__(self):
         super(AppWindow, self).__init__()
@@ -49,11 +44,8 @@ class AppWindow(QMainWindow):
             masks = masks.transpose(1, 2, 0)
             self.config['image_counter'] += 1
             print("Genrated_image", self.config['image_counter'])
-            # plt.imshow(img)
-            # plt.plot(10 ,10, 'go--', linewidth=2, markersize=12)
-            # self.center_points(plt,annot)
+
             print(masks.shape)
-            # fig_masks,ax_masks= plt.subplots(1,masks.shape[2])
             fig = plt.figure(figsize=(9, 15))
             gs = gridspec.GridSpec(nrows=2, ncols=masks.shape[2])
             title=["Circle Mask","Squre Mask","Tria angle Mask"]
@@ -72,32 +64,6 @@ class AppWindow(QMainWindow):
 
 
 
-            # if(masks.shape[2] > 1):
-            #     for i,ax in enumerate(ax_masks):
-            #         ax.imshow(masks[:,:, i-1])
-            #         print(i)
-            # else:
-            #     ax_masks.imshow(masks[: ,:, 0])
-            #
-            # ax=fig_masks.add_subplot(8,1,2)
-            # #
-            # ax.imshow(img)
-            #
-            # fig_masks.show()
-
-
-
-            # plt.show()
-            # print(masks.shape[1])
-            # print(annot)
-
-        # plt.subplot(2, 3, 1)
-        # plt.imshow(masks[:, :, 0])
-        # plt.subplot(2, 3, 2)
-        # plt.imshow(masks[:, :, 1])
-        # plt.subplot(2, 3, 3)
-        # plt.imshow(masks[:, :, 2])
-        # plt.show()
 
 
     def update_config(self):
