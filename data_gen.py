@@ -7,6 +7,7 @@ from  PyQt5.QtWidgets import QApplication,QMainWindow
 import sys
 
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import gen_pic
 import numpy as np
 
@@ -48,25 +49,41 @@ class AppWindow(QMainWindow):
             masks = masks.transpose(1, 2, 0)
             self.config['image_counter'] += 1
             print("Genrated_image", self.config['image_counter'])
-            plt.imshow(img)
+            # plt.imshow(img)
             # plt.plot(10 ,10, 'go--', linewidth=2, markersize=12)
-            self.center_points(plt,annot)
+            # self.center_points(plt,annot)
             print(masks.shape)
-            fig_masks,ax_masks= plt.subplots(1,masks.shape[2])
-
-
-            if(masks.shape[2] > 1):
-                for i,ax in enumerate(ax_masks):
-                    ax.imshow(masks[:,:, i-1])
-                    print(i)
-            else:
-                ax_masks.imshow(masks[: ,:, 0])
-
-            ax=fig_masks.add_subplot(8,1,2)
+            # fig_masks,ax_masks= plt.subplots(1,masks.shape[2])
+            fig = plt.figure(figsize=(9, 15))
+            gs = gridspec.GridSpec(nrows=2, ncols=masks.shape[2])
+            title=["Circle Mask","Squre Mask","Tria angle Mask"]
             #
-            ax.imshow(img)
+            for i in range (masks.shape[2]):
+                ax= fig.add_subplot(gs[0, i])
+                ax.imshow(masks[:, :, i])
+                ax.set_title(title[i])
 
-            fig_masks.show()
+            ax = fig.add_subplot(gs[1, :])
+            self.center_points(ax, annot)
+            ax.imshow(img)
+            ax.set_title("Generated Image")
+            # plt.tight_layout()
+            plt.show()
+
+
+
+            # if(masks.shape[2] > 1):
+            #     for i,ax in enumerate(ax_masks):
+            #         ax.imshow(masks[:,:, i-1])
+            #         print(i)
+            # else:
+            #     ax_masks.imshow(masks[: ,:, 0])
+            #
+            # ax=fig_masks.add_subplot(8,1,2)
+            # #
+            # ax.imshow(img)
+            #
+            # fig_masks.show()
 
 
 
