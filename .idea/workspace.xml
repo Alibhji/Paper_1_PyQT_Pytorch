@@ -39,7 +39,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.learning">
+  <component name="RunManager" selected="Python.data_gen">
     <configuration name="Sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="torch_paper1" />
       <option name="INTERPRETER_OPTIONS" value="" />

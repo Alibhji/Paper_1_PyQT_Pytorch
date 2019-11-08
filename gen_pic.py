@@ -85,7 +85,7 @@ def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,tr
         annot.update(circle_annot)
     mask_ = np.zeros(shape, dtype=np.uint8())
 
-    return arr, np.asarray(masks) ,annot
+    return np.reshape(arr,(1,height,width)), np.asarray(masks) ,annot
 
 
 if __name__=='__main__':

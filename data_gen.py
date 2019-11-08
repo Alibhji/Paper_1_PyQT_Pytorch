@@ -41,6 +41,7 @@ class AppWindow(QMainWindow):
 
         if C_ or S_ or T_:
             img, masks ,annot= gen_pic.generate_img_and_mask(H_, W_, N_, F_, circle=C_, squre=S_, triangle=T_)
+            img=np.reshape(img,[H_,W_])
             masks = masks.transpose(1, 2, 0)
             self.config['image_counter'] += 1
             print("Genrated_image", self.config['image_counter'])
