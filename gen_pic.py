@@ -43,7 +43,15 @@ def add_circle(arr, x, y, size,fill=0):
                 arr[x + i, y + j] = False
     return arr
 
-def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,triangle=False):
+def genrate_random_images(height,width,count=1,):
+    x, y, a = zip(*[generate_img_and_mask(height, width, num_each_obj=1, circle=True) for i in range(count)])
+    x = np.asarray(x) * 255
+    x = x.repeat(3, axis=1).transpose(0, 2, 3, 1).astype(np.uint8)
+    y = np.asarray(y)
+    a = np.asarray(a)
+    return x,y,a
+
+def generate_img_and_mask(height, width,num_each_obj=1,fill=0,circle=False,squre=False,triangle=False):
     shape = (height, width)
     arr = np.zeros(shape, dtype=np.uint8())
     mask_= np.zeros(shape, dtype=np.uint8())
@@ -52,8 +60,8 @@ def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,tr
 
     if squre:
         squre_annot ={}
-        for i in range(num):
-            x, y, size = get_random_location(*shape, zoom=random.uniform(.2, 2))
+        for i in range(num_each_obj):
+            x, y, size = get_random_location(*shape, zoom=random.uniform(.2, 1))
             arr= add_squre(arr, x,y,size,fill)
             mask_ = add_squre(mask_, x, y, size, fill)
             squre_annot.update({'squre_{}'.format(i):[x,y,size]})
@@ -64,7 +72,7 @@ def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,tr
 
     if triangle:
         triangle_annot = {}
-        for i in range(num):
+        for i in range(num_each_obj):
             x, y, size = get_random_location(*shape, zoom=random.uniform(.2, 2))
             arr = add_triangle(arr, x, y, size,fill)
             mask_ = add_triangle(mask_, x, y, size, fill)
@@ -76,7 +84,7 @@ def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,tr
 
     if circle:
         circle_annot = {}
-        for i in range(num):
+        for i in range(num_each_obj):
             x, y, size = get_random_location(*shape, zoom=random.uniform(.2, 2))
             arr = add_circle(arr, x, y, size, fill)
             mask_ = add_circle(mask_, x, y, size, fill)
@@ -89,6 +97,9 @@ def generate_img_and_mask(height, width,num=1,fill=0,circle=False,squre=False,tr
 
 
 if __name__=='__main__':
-    img=generate_img_and_mask(200,200)
+    fig = plt.figure(figsize=(9, 15))
+    img,_,_=generate_img_and_mask(200,200,circle=True,num_each_obj=5,fill=2)
+    print(img.shape)
+    img = np.reshape(img, [200, 200])
     plt.imshow(img)
     plt.show()

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './main.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -23,15 +23,15 @@ class Ui_MainWindow(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.layoutWidget)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout_3.addWidget(self.lineEdit_2, 0, 1, 1, 1)
+        self.btn_train_size = QtWidgets.QLineEdit(self.layoutWidget)
+        self.btn_train_size.setObjectName("btn_train_size")
+        self.gridLayout_3.addWidget(self.btn_train_size, 0, 1, 1, 1)
         self.label = QtWidgets.QLabel(self.layoutWidget)
         self.label.setObjectName("label")
         self.gridLayout_3.addWidget(self.label, 0, 0, 1, 1)
-        self.lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
-        self.lineEdit.setObjectName("lineEdit")
-        self.gridLayout_3.addWidget(self.lineEdit, 1, 1, 1, 1)
+        self.btn_test_size = QtWidgets.QLineEdit(self.layoutWidget)
+        self.btn_test_size.setObjectName("btn_test_size")
+        self.gridLayout_3.addWidget(self.btn_test_size, 1, 1, 1, 1)
         self.btn_gen = QtWidgets.QPushButton(self.layoutWidget)
         self.btn_gen.setObjectName("btn_gen")
         self.gridLayout_3.addWidget(self.btn_gen, 2, 0, 1, 2)
@@ -118,9 +118,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.Gen_data.setTitle(_translate("MainWindow", "Generate Data"))
-        self.lineEdit_2.setText(_translate("MainWindow", "100"))
+        self.btn_train_size.setText(_translate("MainWindow", "1000"))
         self.label.setText(_translate("MainWindow", "Train Data"))
-        self.lineEdit.setText(_translate("MainWindow", "1000"))
+        self.btn_test_size.setText(_translate("MainWindow", "100"))
         self.btn_gen.setText(_translate("MainWindow", "Generate"))
         self.label_2.setText(_translate("MainWindow", "Test_data"))
         self.G_image_option.setTitle(_translate("MainWindow", "Image Option"))
