@@ -3,7 +3,7 @@
 
 import compile_ui
 from main import Ui_MainWindow
-from  PyQt5.QtWidgets import QApplication,QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
 
 import matplotlib.pyplot as plt
@@ -14,13 +14,15 @@ import numpy as np
 import learning
 # import torch
 
-from  my_utils import gui_tools
+from my_utils import gui_tools
+from torch.utils.data import  DataLoader
+import torchvision.utils
 
 
 class AppWindow(QMainWindow):
     def __init__(self):
         super(AppWindow, self).__init__()
-        self.ui=Ui_MainWindow()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.conf_ui()
 
@@ -32,44 +34,75 @@ class AppWindow(QMainWindow):
         self.update_config()
         self.config.update({'image_counter': 0})
 
-
-
-
     def gen_dataset(self):
         self.update_config()
 
-        self.dataset_train=learning.generated_data(self.config['image_size_H'],self.config['image_size_W'],
-                                self.config['dataset_size_train'])
-        self.dataset_test=learning.generated_data(self.config['image_size_H'],self.config['image_size_W'],
-                                self.config['dataset_size_test'])
+        dataset_train = learning.generated_data(self.config , 'train')
+        dataset_test = learning.generated_data(self.config , 'test')
+        # dataset_train = learning.generated_data(self.config,'train')
+        # dataset_test =  learning.generated_data(self.config,'test')
+
         # print(len(self.dataset_train) ,len(self.dataset_test))
 
-        self.tools.logging("Datasets are generated \nTrain_data size:{}\nTest_data size:{}".format(len(self.dataset_train),len(self.dataset_test) ))
+        self.datasets = {
+            'train': dataset_train, 'test': dataset_test
+        }
+        # print(len(self.datasets['train']))
+        batch_size = 50
+        dataloaders = {
+            'train': DataLoader(dataset_train, batch_size=batch_size, shuffle=True, num_workers=0),
+            'test': DataLoader(dataset_test, batch_size=batch_size, shuffle=True, num_workers=0)
+        }
 
-    def center_points(self,plt, anntation):
+        dataset_sizes = {
+            x: len(self.datasets[x]) for x in self.datasets.keys()
+        }
+        # print(dataset_sizes)
+
+        self.tools.logging(
+            "Datasets are generated \nTrain_data size:{}\nTest_data size:{}".format(dataset_sizes['train'],dataset_sizes['test']))
+
+        def reverse_transform(inp):
+            inp = inp.numpy().transpose((1, 2, 0))
+            inp = np.clip(inp, 0, 1)
+            inp = (inp * 255).astype(np.uint8)
+
+            return inp
+
+        # Get a batch of training data
+        inputs, masks = next(iter(dataloaders['train']))
+
+        # print(inputs.shape, masks.shape)
+        for x in [inputs.numpy(), masks.numpy()]:
+            # print(x.min(), x.max(), x.mean(), x.std())
+            self.tools.logging("[Train Statistics and Assosiated Masks]: \nMin={} \nMax={} \nMean={} \nSTD={}".format(x.min(), x.max(), x.mean(), x.std()),'red')
+
+        # plt.imshow(reverse_transform(inputs[3]))
+        # plt.show()
+
+    def center_points(self, plt, anntation):
         # objes={}
         # objes=anntation
         # objes.values()
         for obj in anntation:
             print(anntation[obj][1])
-            plt.plot(anntation[obj][1] ,anntation[obj][0], 'ro--', linewidth=1, markersize=2)
+            plt.plot(anntation[obj][1], anntation[obj][0], 'ro--', linewidth=1, markersize=2)
 
     def pic_gen(self):
 
         self.update_config()
 
-
-
-        H_,W_,N_ =self.config['image_size_H'] ,self.config['image_size_W'],self.config['objecs_num']
-        F_=self.config['objecs_Fill']
-        C_ , S_ , T_ = self.config['objecs_circle'] ,self.config['objecs_squre'],self.config['objecs_triangle']
+        H_, W_, N_ = self.config['image_size_H'], self.config['image_size_W'], self.config['objecs_num']
+        F_ = self.config['objecs_Fill']
+        C_, S_, T_ = self.config['objecs_circle'], self.config['objecs_squre'], self.config['objecs_triangle']
 
         if C_ or S_ or T_:
 
-            img, masks ,annot= gen_pic.generate_img_and_mask(H_, W_,num_each_obj=N_,fill=F_, circle=C_, squre=S_, triangle=T_)
+            img, masks, annot = gen_pic.generate_img_and_mask(H_, W_, num_each_obj=N_, fill=F_, circle=C_, squre=S_,
+                                                              triangle=T_)
             masks = masks.transpose(1, 2, 0)
             # img = img.transpose(2, 0, 1)
-            img=np.reshape(img ,(H_,W_))
+            img = np.reshape(img, (H_, W_))
 
             self.config['image_counter'] += 1
             self.tools.logging("Generated image:" + str(self.config['image_counter']))
@@ -78,10 +111,10 @@ class AppWindow(QMainWindow):
             # print(img.shape)
             fig = plt.figure(figsize=(9, 15))
             gs = gridspec.GridSpec(nrows=2, ncols=masks.shape[2])
-            title=["Circle Mask","Squre Mask","Tria angle Mask"]
+            title = ["Circle Mask", "Squre Mask", "Tria angle Mask"]
             #
-            for i in range (masks.shape[2]):
-                ax= fig.add_subplot(gs[0, i])
+            for i in range(masks.shape[2]):
+                ax = fig.add_subplot(gs[0, i])
                 ax.imshow(masks[:, :, i])
                 ax.set_title(title[i])
             #
@@ -91,10 +124,6 @@ class AppWindow(QMainWindow):
             ax.set_title("Generated Image")
             # # plt.tight_layout()
             plt.show()
-
-
-
-
 
     def update_config(self):
         self.config.update({'image_size_H': int(self.ui.in_img_size_H.text())})
@@ -111,8 +140,8 @@ class AppWindow(QMainWindow):
         # print(self.config)
 
 
-if __name__=='__main__':
-    app=QApplication(sys.argv)
-    window=AppWindow()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = AppWindow()
     window.show()
     sys.exit(app.exec())

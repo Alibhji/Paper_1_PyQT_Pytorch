@@ -19,21 +19,14 @@
      <rect>
       <x>10</x>
       <y>320</y>
-      <width>271</width>
-      <height>91</height>
+      <width>211</width>
+      <height>126</height>
      </rect>
     </property>
     <property name="title">
      <string>Generate Data Set</string>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <item>
-      <widget class="QPushButton" name="btn_train">
-       <property name="text">
-        <string>Generate</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QVBoxLayout" name="verticalLayout_9">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
@@ -74,6 +67,13 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QPushButton" name="btn_train">
+       <property name="text">
+        <string>Generate</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -102,12 +102,12 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>271</width>
+      <width>211</width>
       <height>296</height>
      </rect>
     </property>
     <property name="title">
-     <string>Image Option</string>
+     <string>Objects in the image</string>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_7">
      <item>
@@ -249,6 +249,19 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_5">

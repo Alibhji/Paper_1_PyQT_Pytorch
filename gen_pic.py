@@ -43,8 +43,8 @@ def add_circle(arr, x, y, size,fill=0):
                 arr[x + i, y + j] = False
     return arr
 
-def genrate_random_images(height,width,count=1,):
-    x, y, a = zip(*[generate_img_and_mask(height, width, num_each_obj=1, circle=True) for i in range(count)])
+def genrate_random_images(height,width,count=1,circle=False,fill=1,squre=False,triangle=False,num_each_obj=1):
+    x, y, a = zip(*[generate_img_and_mask(height, width, num_each_obj=num_each_obj, circle=circle,fill=fill,squre=squre,triangle=triangle) for i in range(count)])
     x = np.asarray(x) * 255
     x = x.repeat(3, axis=1).transpose(0, 2, 3, 1).astype(np.uint8)
     y = np.asarray(y)
