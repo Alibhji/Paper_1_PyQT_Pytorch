@@ -14,6 +14,9 @@ import numpy as np
 import learning
 # import torch
 
+from  my_utils import gui_tools
+
+
 class AppWindow(QMainWindow):
     def __init__(self):
         super(AppWindow, self).__init__()
@@ -24,9 +27,13 @@ class AppWindow(QMainWindow):
     def conf_ui(self):
         self.ui.btn_gen.clicked.connect(self.pic_gen)
         self.ui.btn_train.clicked.connect(self.gen_dataset)
-        self.config={}
+        self.tools = gui_tools.utils(self)
+        self.config = {}
         self.update_config()
         self.config.update({'image_counter': 0})
+
+
+
 
     def gen_dataset(self):
         self.update_config()
@@ -35,7 +42,9 @@ class AppWindow(QMainWindow):
                                 self.config['dataset_size_train'])
         self.dataset_test=learning.generated_data(self.config['image_size_H'],self.config['image_size_W'],
                                 self.config['dataset_size_test'])
-        print(len(self.dataset_train) ,len(self.dataset_test))
+        # print(len(self.dataset_train) ,len(self.dataset_test))
+
+        self.tools.logging("Datasets are generated \nTrain_data size:{}\nTest_data size:{}".format(len(self.dataset_train),len(self.dataset_test) ))
 
     def center_points(self,plt, anntation):
         # objes={}
@@ -48,6 +57,9 @@ class AppWindow(QMainWindow):
     def pic_gen(self):
 
         self.update_config()
+
+
+
         H_,W_,N_ =self.config['image_size_H'] ,self.config['image_size_W'],self.config['objecs_num']
         F_=self.config['objecs_Fill']
         C_ , S_ , T_ = self.config['objecs_circle'] ,self.config['objecs_squre'],self.config['objecs_triangle']
@@ -60,9 +72,10 @@ class AppWindow(QMainWindow):
             img=np.reshape(img ,(H_,W_))
 
             self.config['image_counter'] += 1
-            print("Genrated_image", self.config['image_counter'])
+            self.tools.logging("Generated image:" + str(self.config['image_counter']))
+            # print("Genrated_image", self.config['image_counter'])
 
-            print(img.shape)
+            # print(img.shape)
             fig = plt.figure(figsize=(9, 15))
             gs = gridspec.GridSpec(nrows=2, ncols=masks.shape[2])
             title=["Circle Mask","Squre Mask","Tria angle Mask"]
@@ -93,6 +106,8 @@ class AppWindow(QMainWindow):
         self.config.update({'objecs_triangle': (self.ui.chk_box_triangle.isChecked())})
         self.config.update({'dataset_size_test': int(self.ui.btn_test_size.text())})
         self.config.update({'dataset_size_train': int(self.ui.btn_train_size.text())})
+        if self.ui.chbox_show_configuration.isChecked():
+            self.tools.logging("[Configuration]: \n" + (str(self.config)), "red")
         # print(self.config)
 
 
