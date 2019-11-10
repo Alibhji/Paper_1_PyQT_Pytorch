@@ -15,8 +15,13 @@ import learning
 # import torch
 
 from my_utils import gui_tools
+
+import torch
 from torch.utils.data import  DataLoader
 import torchvision.utils
+from torchsummary import summary
+import torch.optim as optim
+from torch.optim import lr_scheduler
 
 
 class AppWindow(QMainWindow):
@@ -28,11 +33,26 @@ class AppWindow(QMainWindow):
 
     def conf_ui(self):
         self.ui.btn_gen.clicked.connect(self.pic_gen)
-        self.ui.btn_train.clicked.connect(self.gen_dataset)
+        self.ui.btn_gendataset.clicked.connect(self.gen_dataset)
+        self.ui.btn_train.clicked.connect(self.train)
         self.tools = gui_tools.utils(self)
         self.config = {}
         self.update_config()
         self.config.update({'image_counter': 0})
+
+    def train(self):
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.tools.logging("The model is set.")
+        self.tools.logging("The {} device is selected.".format(device))
+        self.model = learning.AliNet()
+        self.model = self.model.to(device)
+        self.dataloaders=self.dataloaders.to(device)
+        summary(self.model, input_size=(3, 25, 25))
+        self.optimizer_ft = optim.Adam(self.model.parameters(), lr=1e-4)
+        self.exp_lr_scheduler = lr_scheduler.StepLR(self.optimizer_ft, step_size=25, gamma=0.1)
+        self.model = learning.train_model(self.model,self.dataloaders, self.optimizer_ft, self.exp_lr_scheduler, num_epochs=10)
+
+
 
     def gen_dataset(self):
         self.update_config()
@@ -49,7 +69,7 @@ class AppWindow(QMainWindow):
         }
         # print(len(self.datasets['train']))
         batch_size = 50
-        dataloaders = {
+        self.dataloaders = {
             'train': DataLoader(dataset_train, batch_size=batch_size, shuffle=True, num_workers=0),
             'test': DataLoader(dataset_test, batch_size=batch_size, shuffle=True, num_workers=0)
         }
@@ -70,7 +90,7 @@ class AppWindow(QMainWindow):
             return inp
 
         # Get a batch of training data
-        inputs, masks = next(iter(dataloaders['train']))
+        inputs, masks = next(iter(self.dataloaders['train']))
 
         # print(inputs.shape, masks.shape)
         for x in [inputs.numpy(), masks.numpy()]:

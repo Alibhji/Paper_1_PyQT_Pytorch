@@ -41,7 +41,7 @@
          <item>
           <widget class="QLineEdit" name="btn_train_size">
            <property name="text">
-            <string>10</string>
+            <string>200</string>
            </property>
           </widget>
          </item>
@@ -59,7 +59,7 @@
          <item>
           <widget class="QLineEdit" name="btn_test_size">
            <property name="text">
-            <string>10</string>
+            <string>100</string>
            </property>
           </widget>
          </item>
@@ -68,7 +68,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_train">
+      <widget class="QPushButton" name="btn_gendataset">
        <property name="text">
         <string>Generate</string>
        </property>
@@ -323,6 +323,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="btn_train">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>40</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Train</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
