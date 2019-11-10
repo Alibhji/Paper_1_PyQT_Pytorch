@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cefebbe3-f2e5-45c4-8895-bc6ece954cba" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/my_utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/my_utils/gui_tools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_gen.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_gen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.ui" beforeDir="false" afterPath="$PROJECT_DIR$/main.ui" afterDir="false" />
-    </list>
+    <list default="true" id="cefebbe3-f2e5-45c4-8895-bc6ece954cba" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,6 +149,14 @@
       <option name="presentableId" value="Default" />
       <updated>1573081717600</updated>
     </task>
+    <task id="LOCAL-00001" summary="The logging display is added to ui">
+      <created>1573350414962</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1573350414962</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -180,5 +181,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="The logging display is added to ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="The logging display is added to ui" />
   </component>
 </project>
